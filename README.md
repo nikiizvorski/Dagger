@@ -2,9 +2,7 @@
 
 #####Introduction
 RxJavata showcases the use of Square's [Retrofit](http://square.github.io/retrofit/) and [RxJava](https://github.com/ReactiveX/RxJava/wiki) to make asynchronous HTTP Requests in Android Application. The App makes HTTP GET requests to the [Blizzard API](https://dev.battle.net/) to retrieve **Mounts** and **mounts URL** and
-added Dagger2 for Dependency Injection Application.
-
-You can see how all of these libraries will save you time and money and a lot boilerplate.
+added Dagger2 for Dependency Injection Application.You can see how all of these libraries will save you time and money and a lot boilerplate.
 
 The FETCH button kicks off a series of HTTP requests to Blizzard API. The HTTP requests are built via Retrofit 2.0. The calls are made asynchronously through RxJava. Notice that the cards are laid out in different order each time the button is pressed. You are seeing async threading at work! Each card is rendered when the result comes back from a GET request.
 
