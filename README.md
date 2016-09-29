@@ -262,8 +262,8 @@ Don't forget to thanks the dagger team!
 
 - Niki Izvorski (nikiizvorski@gmail.com)
 
-<br>
 #####Reference:
 Square Retrofit Doc: [http://goo.gl/UwksBu] <br>
 RxJava Doc: [https://goo.gl/5AqMNi] <br>
-CardView/RecycleView UI Reference: [http://goo.gl/stNj2J]
+CardView/RecycleView UI Reference: [http://goo.gl/stNj2J] <br>
+Dagger2 Doc: [http://google.github.io/dagger/] 
