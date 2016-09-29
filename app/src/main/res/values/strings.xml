@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Dagger</string>
+    <string name="item_id">ItemID: \u0020</string>
+    <string name="creature_id">CreatureID: \u0020</string>
+</resources>
