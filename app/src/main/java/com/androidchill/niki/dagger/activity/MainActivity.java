@@ -1,10 +1,11 @@
 package com.androidchill.niki.dagger.activity;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
 
 import com.androidchill.niki.dagger.R;
@@ -14,6 +15,7 @@ import com.androidchill.niki.dagger.model.ResponsePets;
 import com.androidchill.niki.dagger.service.ServiceFactory;
 
 import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Subscriber;
@@ -21,6 +23,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final String TAG = MainActivity.this.getClass().getSimpleName();
 
     @Inject
     ServiceFactory serviceFactory;
@@ -37,13 +41,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Dagger2 Dependencies
-        injectDependencies();
+        injectDependencies(this);
 
         //Butterknife bind
         ButterKnife.bind(this);
 
         //Set CardView/RecyclerView
-        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -51,42 +54,18 @@ public class MainActivity extends AppCompatActivity {
         final CardPetsAdapter mCardAdapter = new CardPetsAdapter();
         mRecyclerView.setAdapter(mCardAdapter);
 
-        //Set Button Clear
-        bClear.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                mCardAdapter.clear();
-            }
-        });
+        //Set Button CLear Lambda and Method references
+        bClear.setOnClickListener(v -> mCardAdapter.clear());
 
-        //Set Button Fetch
-        bFetch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                serviceFactory.getPets()
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<ResponsePets>() {
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(ResponsePets responsePets) {
-                                mCardAdapter.addData(responsePets);
-                            }
-                        });
-            }
-        });
+        //Set Button Fetch Lambda and Method references
+        bFetch.setOnClickListener(v -> serviceFactory.getPets()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mCardAdapter::addData));
     }
 
-    private void injectDependencies() {
-        ((ServiceApplication) getApplication()).getApiComponent().inject(this);
+    private void injectDependencies(Context context) {
+        ((ServiceApplication) getApplication()).getApiComponent().inject((MainActivity) context);
     }
 }
 
