@@ -25,6 +25,7 @@ import rx.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = MainActivity.this.getClass().getSimpleName();
+    private Subscription subscription;
 
     @Inject
     ServiceFactory serviceFactory;
@@ -58,14 +59,26 @@ public class MainActivity extends AppCompatActivity {
         bClear.setOnClickListener(v -> mCardAdapter.clear());
 
         //Set Button Fetch Lambda and Method references
-        bFetch.setOnClickListener(v -> serviceFactory.getPets()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(mCardAdapter::addData));
+        bFetch.setOnClickListener(v -> getSubscribe());
+    }
+    
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(subscription != null && !subscription.isUnsubscribed()){
+            subscription.unsubscribe();
+        }
     }
 
     private void injectDependencies(Context context) {
         ((ServiceApplication) getApplication()).getApiComponent().inject((MainActivity) context);
+    }
+    
+    private Subscription getSubscribe() {
+        return subscription = serviceFactory.getPets()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(mCardAdapter::addData);
     }
 }
 
