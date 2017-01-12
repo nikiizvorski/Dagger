@@ -48,4 +48,7 @@ dependencies {
 
     provided 'org.glassfish:javax.annotation:10.0-b28'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
+    
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
 }
