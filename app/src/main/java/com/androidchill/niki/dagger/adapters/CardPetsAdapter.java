@@ -59,10 +59,25 @@ public class CardPetsAdapter extends RecyclerView.Adapter<CardPetsAdapter.ViewHo
         viewHolder.login.setText(blizzard.getPets().get(i).getName());
         viewHolder.repos.setText(items + itemId);
         viewHolder.blog.setText(creatures + creatureId);
-        final Uri imageUri = Uri.parse(blizzard.getPets().get(i).getIcon());
-        Glide.with(viewHolder.pic.getContext()).load(imageUri).into(viewHolder.pic);
-        final Uri imageUria = Uri.parse(blizzard.getPets().get(i).getPetPic());
-        Glide.with(viewHolder.pics.getContext()).load(imageUria).into(viewHolder.pics);
+        loadPetImageProfile(viewHolder.pic, blizzard.getIcon());
+        loadPetImageProfile(viewHolder.pics, blizzard.getPetPic());
+    }
+    
+    private void loadPetImageProfile(ImageView imageView, String uri) {
+        final Uri imageUri = Uri.parse(uri);
+
+        Picasso.with(imageView.getContext()).setIndicatorsEnabled(true);
+        Picasso.with(imageView.getContext()).load(imageUri).networkPolicy(NetworkPolicy.OFFLINE).into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError() {
+                Picasso.with(imageView.getContext()).load(imageUri).into(imageView);
+            }
+        });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
