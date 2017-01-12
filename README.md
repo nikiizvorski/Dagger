@@ -236,6 +236,8 @@ These two lines specify that the REST call will be made in a new thread (YES!). 
 This Subscriber responds to the Observable's stream. onNext is called when the REST call receives data. In this Github example, there is only 1 item, so it is only called once. When the REST response is a list, the code can be called each time an item is received. onComplete and onError behave exactly as the name implies.
 
 
+Project is Updated to Picasso from Glide fot the caching part you can now check the indicator where your cache is coming from. Also the project is very close to the end if yo decide to use it you will have around one - two days of work.
+
 #####We are done
 We have just made our non-blocking HTTP calls on Android. Special thanks to the folks at Square and ReactiveX for making our lives easier!
 
