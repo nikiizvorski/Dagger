@@ -213,25 +213,10 @@ And you are done! Other than Java's boilerplate stuff (boo), the code is very co
 The [Observable](http://reactivex.io/documentation/observable.html) object from our Response streams data when it becomes available. We need to have an Subscriber (sometimes called Observer) to watch for the data stream changes. Conceptually, the Subscriber subscribes to an Observable. The following block of code performs the entire process described.
 
 ```java
-serviceFactory.getPets()
+subscription = serviceFactory.getPets()
           .subscribeOn(Schedulers.newThread())
           .observeOn(AndroidSchedulers.mainThread())
-          .subscribe(new Subscriber<ResponsePets>() {
-                  @Override
-                  public void onCompleted() {
-
-                  }
-
-                  @Override
-                  public void onError(Throwable e) {
-
-                  }
-
-                  @Override
-                  public void onNext(ResponsePets responsePets) {
-                      mCardAdapter.addData(responsePets);
-                  }
-});
+          .subscribe(mCardAdapter::addData);
 ```
 That was probably a bit confusing. Let's break the code down line by line here you can use the FactoryService which we created earlier
 with the APIModule, NetworkModule and see the true power of Dagger.
